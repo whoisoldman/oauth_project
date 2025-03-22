@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'authapp',
+    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,10 +57,12 @@ ROOT_URLCONF = 'oauth_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -66,6 +71,29 @@ TEMPLATES = [
         },
     },
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.vk.VKOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# OAuth VK
+SOCIAL_AUTH_VK_OAUTH2_KEY = '53307577'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'hWgUoYCC0GFLMAUT1Hgu'
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['offline', 'email', 'friends']
+
+# OAuth Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'GOOGLE_CLIENT_ID'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'GOOGLE_CLIENT_SECRET'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['offline', 'email', 'friends']
+
 
 WSGI_APPLICATION = 'oauth_project.wsgi.application'
 
