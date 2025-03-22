@@ -5,6 +5,8 @@
 
 #My files
 .DS_Store
+.gitignore
+.gitattributes
 
 #My folders
 /zzz
